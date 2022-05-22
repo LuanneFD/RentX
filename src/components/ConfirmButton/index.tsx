@@ -1,7 +1,5 @@
 import React from 'react';
-import { useTheme } from 'styled-components';
 import { TouchableOpacityProps } from 'react-native';
-
 import {
   Container,
   Title
@@ -9,14 +7,11 @@ import {
 
 interface Props extends TouchableOpacityProps {
   title: string;
-  color?: string;
 }
 
-export function Button({ title, color, ...rest }: Props) {
-  const theme = useTheme();
-
+export function ConfirmButton({ title, ...rest }: Props) {
   return (
-    <Container {...rest} color={color ? color : theme.colors.main}>
+    <Container {...rest}>
       <Title>{title}</Title>
     </Container>
   )

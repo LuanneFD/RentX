@@ -1,10 +1,11 @@
 import React from 'react';
-import { useNavigation, useRoute } from '@react-navigation/native';
 import { Accessory } from '../../components/Accessory';
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
+import { Feather } from '@expo/vector-icons';
 import { Button } from '../../components/Button';
-import { CarDTO } from '../../dtos/CarDTO';
+import { RFValue } from 'react-native-responsive-fontsize';
+import { useTheme } from 'styled-components';
 
 import SpeedSvg from '../../assets/speed.svg'
 import Acceleration from '../../assets/acceleration.svg'
@@ -25,33 +26,34 @@ import {
   Rent,
   Period,
   Price,
-  About,
   Accessories,
-  Footer
+  Footer,
+  RentalPeriod,
+  CalendarIcon,
+  DateInfo,
+  DateTitle,
+  DateValue,
+  RentalPrice,
+  RentalPriceLabel,
+  RentalPriceDetails,
+  RentalPriceQuota,
+  RentalPriceTotal
 } from './styles'
+import { useNavigation } from '@react-navigation/native';
 
 
-interface Params {
-  car: CarDTO;
-}
 
-export function CarDetails() {
+export function SchedulingDetails() {
+  const theme = useTheme();
   const navigation = useNavigation<any>();
-  const route = useRoute();
-  const { car } = route.params as Params;
 
-  function handleConfirmRental() {
-    navigation.navigate('Scheduling');
+  function handleSchedulingComplete() {
+    navigation.navigate('SchedulingComplete');
   }
-
-  function handleBack() {
-    navigation.goBack();
-  }
-
   return (
     <Container>
       <Header>
-        <BackButton onPress={handleBack} />
+        <BackButton onPress={() => { }} />
       </Header>
 
       <CarImages>
@@ -61,7 +63,7 @@ export function CarDetails() {
       <Content>
         <Details>
           <Description>
-            <Brand>{car.brand}</Brand>
+            <Brand>Lamborghini</Brand>
             <Name>Huracan</Name>
           </Description>
           <Rent>
@@ -79,14 +81,37 @@ export function CarDetails() {
           <Accessory icon={People} name="2 pessoas" />
         </Accessories>
 
+        <RentalPeriod>
+          <CalendarIcon>
+            <Feather name="calendar" size={RFValue(24)} color={theme.colors.shape} />
+          </CalendarIcon>
 
-        <About>
-          Este é automóvel desportivo. Surgiu do lendário touro de lide indultado na praça Real Maestranza de Sevilla. É um belíssimo carro para quem gosta de acelerar.
-        </About>
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>22/05/2022</DateValue>
+          </DateInfo>
+
+          <Feather name="chevron-right" size={RFValue(10)} color={theme.colors.text} />
+
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>22/05/2022</DateValue>
+          </DateInfo>
+
+        </RentalPeriod>
+
+        <RentalPrice>
+          <RentalPriceLabel>TOTAL</RentalPriceLabel>
+          <RentalPriceDetails>
+            <RentalPriceQuota>R$ 580 x3 diárias</RentalPriceQuota>
+            <RentalPriceTotal>R$ 2.900</RentalPriceTotal>
+          </RentalPriceDetails>
+        </RentalPrice>
+
       </Content>
 
       <Footer>
-        <Button title="Escolher período do aluguel" onPress={handleConfirmRental} />
+        <Button title="Alugar agora" color={theme.colors.success} onPress={handleSchedulingComplete} />
       </Footer>
 
     </Container>

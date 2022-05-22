@@ -1,8 +1,13 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
+import api from '../../services/api'
+import { CarDTO } from '../../dtos/CarDTO';
+import { Load } from '../../components/Load';
 
 import {
   Container,
@@ -13,32 +18,52 @@ import {
 } from './styles'
 
 
+
 export function Home() {
-  const carData = {
-    brand: 'audi',
-    name: 'RS Coupé',
-    rent: {
-      period: 'ao dia',
-      price: 120
-    },
-    thumbnail: 'https://www.pngmart.com/files/1/Audi-RS5-Red-PNG.png'
+  const navigation = useNavigation<any>();
+  const [cars, setCars] = useState<CarDTO[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  function handleCarDetails(car: CarDTO) {
+    navigation.navigate('CarDetails', car);
   }
+
+  useEffect(() => {
+    async function fetchCars() {
+      try {
+        const response = await api.get('/cars');
+        setCars(response.data);
+      }
+      catch (error) {
+        console.log(error);
+      }
+      finally {
+        setLoading(false);
+      }
+    }
+    fetchCars();
+  }, []);
+
+
   return (
     <Container>
       <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
-      <Header >
+      <Header>
         <HeaderContent>
           <Logo width={RFValue(108)} height={RFValue(12)} />
           <TotalCars>Total de 12 carros</TotalCars>
         </HeaderContent>
       </Header>
 
-      <CarList
-        data={[1, 2, 3, 4, 5, 6]}
-        keyExtractor={item => String(item)}
-        renderItem={({ item }) => <Car data={carData} />}
-      />
-
+      {loading ? <Load /> :
+        <CarList
+          data={cars}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) =>
+            <Car data={item} onPress={() => handleCarDetails(item)} />
+          }
+        />
+      }
     </Container>
   )
 };
