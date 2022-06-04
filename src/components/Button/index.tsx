@@ -1,11 +1,12 @@
 import React from 'react';
 import { useTheme } from 'styled-components';
 import { TouchableOpacityProps } from 'react-native';
-
+import { Load } from '../Load';
 import {
   Container,
   Title
 } from './styles'
+
 
 interface Props extends TouchableOpacityProps {
   title: string;

@@ -1,5 +1,4 @@
 import React from 'react';
-import AppLoading from 'expo-app-loading';
 
 import {
   useFonts,
@@ -25,11 +24,6 @@ export default function App() {
     Archivo_500Medium,
     Archivo_600SemiBold
   });
-
-  if (!fontsLoaded) {
-    return <AppLoading />
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <Routes />

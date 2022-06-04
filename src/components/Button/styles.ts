@@ -12,6 +12,8 @@ padding:19px ;
 align-items: center;
 justify-content: center;
 background-color: ${({ color }) => color};
+flex-direction: row;
+margin-right: 5px;
 `;
 
 export const Title = styled.Text`
