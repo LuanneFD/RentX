@@ -7,7 +7,7 @@ import { Car } from '../../components/Car';
 import { CarDTO } from '../../dtos/CarDTO';
 import api from '../../services/api';
 import { AntDesign } from '@expo/vector-icons'
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 
 import {
   Container,
@@ -24,6 +24,7 @@ import {
   CarFooterPeriod,
   CarFooterDate
 } from './styles'
+
 
 
 interface CarProps {
@@ -71,7 +72,7 @@ export function MyCars() {
         <SubTitle>Conforto,segurança e praticidade.</SubTitle>
       </Header>
 
-      {loading ? <Load /> :
+      {loading ? <LoadAnimation /> :
 
         <Content>
           <Appointments>

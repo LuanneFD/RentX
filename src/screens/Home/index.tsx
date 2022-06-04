@@ -2,17 +2,17 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { useTheme } from 'styled-components';
-import { StatusBar, TouchableOpacity } from 'react-native';
+import { StatusBar, TouchableOpacity, BackHandler } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Ionicons } from '@expo/vector-icons';
 import Animated, { useAnimatedStyle, useSharedValue, useAnimatedGestureHandler, withSpring } from 'react-native-reanimated';
-import { RectButton, PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { PanGestureHandler } from 'react-native-gesture-handler';
 
 import Logo from '../../assets/logo.svg';
 import { Car } from '../../components/Car';
 import api from '../../services/api'
 import { CarDTO } from '../../dtos/CarDTO';
-import { Load } from '../../components/Load';
+import { LoadAnimation } from '../../components/LoadAnimation';
 
 import {
   Container,
@@ -82,6 +82,9 @@ export function Home() {
     fetchCars();
   }, []);
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => { return true });
+  }, [])
 
   return (
 
@@ -90,11 +93,15 @@ export function Home() {
       <Header>
         <HeaderContent>
           <Logo width={RFValue(108)} height={RFValue(12)} />
-          <TotalCars>Total de {cars.length} carros</TotalCars>
+          {
+            !loading &&
+            <TotalCars>Total de {cars.length} carros</TotalCars>
+          }
+
         </HeaderContent>
       </Header>
 
-      {loading ? <Load /> :
+      {loading ? <LoadAnimation /> :
         <CarList
           data={cars}
           keyExtractor={item => item.id}
