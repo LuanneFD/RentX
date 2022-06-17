@@ -10,7 +10,7 @@ import {
 export function LoadAnimation() {
   return (
     <Container>
-      <LottieView source={LoadingCar} autoPlay />
+      <LottieView source={LoadingCar} style={{ height: 200 }} resizeMode="contain" autoPlay loop />
     </Container>
   )
 };

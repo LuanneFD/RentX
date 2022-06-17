@@ -11,14 +11,15 @@ import {
 interface Props extends TouchableOpacityProps {
   title: string;
   color?: string;
+  ligth?: boolean;
 }
 
-export function Button({ title, color, ...rest }: Props) {
+export function Button({ title, color, ligth = false, ...rest }: Props) {
   const theme = useTheme();
 
   return (
     <Container {...rest} color={color ? color : theme.colors.main}>
-      <Title>{title}</Title>
+      <Title ligth={ligth}>{title}</Title>
     </Container>
   )
 };
