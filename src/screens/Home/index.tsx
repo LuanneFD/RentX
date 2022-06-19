@@ -27,19 +27,27 @@ export function Home() {
   }
 
   useEffect(() => {
+    let isMounted = true; //tratamento que garante a atualização dos valores caso o componente esteja montado
     async function fetchCars() {
       try {
         const response = await api.get('/cars');
-        setCars(response.data);
+        if (isMounted) {
+          setCars(response.data);
+        }
       }
       catch (error) {
         console.log(error);
       }
       finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     }
     fetchCars();
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
