@@ -1,5 +1,9 @@
 import React from 'react';
 import { AppProvider } from './src/hooks';
+import { ThemeProvider } from 'styled-components/native';
+import theme from './src/styles/theme';
+import { Routes } from './src/routes';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs([
@@ -18,10 +22,6 @@ import {
   Archivo_600SemiBold
 } from '@expo-google-fonts/archivo';
 
-import { ThemeProvider } from 'styled-components/native';
-import theme from './src/styles/theme';
-import { Routes } from './src/routes';
-
 export default function App() {
 
   const [fontsLoaded] = useFonts({
@@ -32,11 +32,13 @@ export default function App() {
     Archivo_600SemiBold
   });
   return (
-    <ThemeProvider theme={theme}>
-      <AppProvider>
-        <Routes />
-      </AppProvider>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider theme={theme}>
+        <AppProvider>
+          <Routes />
+        </AppProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
 

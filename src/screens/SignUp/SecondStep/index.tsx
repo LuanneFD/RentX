@@ -41,11 +41,17 @@ export function SecondStep() {
       return Alert.alert("As senhas não correspondem.");
     }
 
-    await api.post('/users', { name: user.name, email: user.email, driver_license: user.driverLicense, password })
+    await api.post('/users', {
+      name: user.name,
+      email: user.email,
+      password,
+      driver_license: user.driverLicense
+    })
       .then(() => {
         navigation.navigate('Confirmation', { title: 'Conta criada!', message: `Agora é só fazer login\ne aproveitar.`, nextSreenRoute: 'SignIn' });
       })
       .catch((error) => {
+        console.log(error);
         return Alert.alert('Opa', 'Não foi possível cadastrar.');
       });
   }
